@@ -1,0 +1,20 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="AI Programming Assistant Interactive Reports">
+	<main class="container mx-auto px-6 py-12 text-center">
+		<h1 class="text-4xl md:text-5xl font-bold text-stone-800" data-i18n-key="welcome_title">
+			Welcome to the AI Programming Assistant Reports
+		</h1>
+		<p class="mt-4 text-xl text-stone-600" data-i18n-key="welcome_subtitle">
+			An interactive hub to explore and compare AI coding tools.
+		</p>
+		<div class="mt-12 flex justify-center gap-8">
+			<a href={`${import.meta.env.BASE_URL}gemini-report/`} class="bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors" data-i18n-key="view_gemini_report">
+				View Gemini Report
+			</a>
+			<!-- Link to DeepSeek report will be added here when available -->
+		</div>
+	</main>
+</Layout>

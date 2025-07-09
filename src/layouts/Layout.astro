@@ -1,0 +1,38 @@
+---
+export interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Astro description" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href={import.meta.env.BASE_URL + "favicon.svg"} />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+		<script is:inline src={import.meta.env.BASE_URL + "js/i18n.js"}></script>
+	</head>
+	<body class="bg-stone-100" data-base-url={import.meta.env.BASE_URL}>
+		<header class="bg-white shadow-sm">
+			<nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+				<div class="text-lg font-bold text-stone-800">
+					AI Reports
+				</div>
+				<div>
+					<select id="lang-selector" class="bg-white border border-stone-300 rounded-md py-1 px-2 text-stone-700">
+						<option value="en">English</option>
+						<option value="zh-CN">简体中文</option>
+						<option value="zh-TW">繁體中文</option>
+					</select>
+				</div>
+			</nav>
+		</header>
+		<slot />
+	</body>
+</html> 

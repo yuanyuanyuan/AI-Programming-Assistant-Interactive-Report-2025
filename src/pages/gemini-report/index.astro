@@ -1,0 +1,464 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Watermark from '../../components/Watermark.astro';
+---
+<Layout title="2025年度AI编程助手交互式报告">
+    <!-- Head Content: Hoisted by Astro -->
+    <script src="https://cdn.staticfile.org/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <script is:inline>
+        // 增加错误处理
+        // 检查Chart是否成功加载
+        if (typeof Chart === 'undefined') {
+            console.error('Chart.js加载失败，正在尝试备用CDN...');
+            const script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js';
+            script.onload = function() {
+                console.log('备用CDN加载成功');
+                // 这里可以调用初始化图表的函数
+                if (typeof createDashboardCharts === 'function') {
+                    createDashboardCharts();
+                }
+            };
+            script.onerror = function() {
+                console.error('所有Chart.js CDN均加载失败');
+            };
+            document.head.appendChild(script);
+        }
+    </script>
+    
+    <style is:inline>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #F5F5F4; /* stone-100 */
+            color: #44403C; /* stone-700 */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .filter-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        .filter-btn.active {
+            background-color: #A16207; /* yellow-700 */
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .timeline-container {
+            position: relative;
+            padding: 20px 0;
+        }
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 18px;
+            height: 100%;
+            width: 4px;
+            background: #D6D3D1; /* stone-300 */
+        }
+        .timeline-item {
+            position: relative;
+            padding-left: 50px;
+            margin-bottom: 30px;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: 8px;
+            top: 5px;
+            height: 25px;
+            width: 25px;
+            border-radius: 50%;
+            background-color: #FBBF24; /* amber-400 */
+            border: 4px solid #FEFCE8; /* yellow-50 */
+        }
+    </style>
+
+    <!-- Body Content -->
+    <div class="antialiased">
+        <header class="bg-white py-8 shadow-sm">
+            <div class="container mx-auto px-6 text-center">
+                <h1 class="text-4xl md:text-5xl font-black text-stone-800" data-i18n-key="report_title">2025 AI编程助手</h1>
+                <p class="mt-2 text-xl text-stone-600" data-i18n-key="report_subtitle">交互式深度比较与战略选型分析</p>
+            </div>
+        </header>
+
+        <main class="container mx-auto px-6 py-12">
+            
+            <section id="navigator" class="bg-white rounded-lg shadow-md p-6 md:p-8 mb-12">
+                <h2 class="text-2xl md:text-3xl font-bold text-stone-800 text-center mb-2" data-i18n-key="navigator_title">为你导航：三步找到最适合你的AI助手</h2>
+                <p class="text-stone-500 text-center mb-8 max-w-3xl mx-auto" data-i18n-key="navigator_subtitle">本报告分析了12款主流AI编程工具。为了帮您快速聚焦，我们设计了这个交互式导航器。请根据您的角色和核心诉求进行选择，我们将为您筛选出最匹配的工具。</p>
+
+                <div id="filters">
+                    <div class="mb-6">
+                        <h3 class="font-bold text-lg text-stone-700 mb-3" data-i18n-key="step1_title">第一步：选择你的角色</h3>
+                        <div class="flex flex-wrap gap-3" data-filter-group="role">
+                            <button class="filter-btn bg-stone-200 text-stone-700 font-semibold py-2 px-4 rounded-full" data-filter="all" data-i18n-key="role_all">所有角色</button>
+                            <button class="filter-btn bg-stone-200 text-stone-700 font-semibold py-2 px-4 rounded-full" data-filter="enterprise" data-i18n-key="role_enterprise">企业决策者</button>
+                            <button class="filter-btn bg-stone-200 text-stone-700 font-semibold py-2 px-4 rounded-full" data-filter="startup" data-i18n-key="role_startup">初创公司/敏捷团队</button>
+                            <button class="filter-btn bg-stone-200 text-stone-700 font-semibold py-2 px-4 rounded-full" data-filter="individual" data-i18n-key="role_individual">独立开发者</button>
+                            <button class="filter-btn bg-stone-200 text-stone-700 font-semibold py-2 px-4 rounded-full" data-filter="cli_user" data-i18n-key="role_cli_user">命令行核心用户</button>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="font-bold text-lg text-stone-700 mb-3" data-i18n-key="step2_title">第二步：你的首要考量是？</h3>
+                        <div class="flex flex-wrap gap-3" data-filter-group="priority">
+                            <button class="filter-btn bg-stone-200 text-stone-700 font-semibold py-2 px-4 rounded-full" data-filter="all" data-i18n-key="priority_all">所有考量</button>
+                            <button class="filter-btn bg-stone-200 text-stone-700 font-semibold py-2 px-4 rounded-full" data-filter="security" data-i18n-key="priority_security">安全合规</button>
+                            <button class="filter-btn bg-stone-200 text-stone-700 font-semibold py-2 px-4 rounded-full" data-filter="agent_power" data-i18n-key="priority_agent_power">强大智能体</button>
+                            <button class="filter-btn bg-stone-200 text-stone-700 font-semibold py-2 px-4 rounded-full" data-filter="cost_effective" data-i18n-key="priority_cost_effective">成本效益</button>
+                            <button class="filter-btn bg-stone-200 text-stone-700 font-semibold py-2 px-4 rounded-full" data-filter="open_source" data-i18n-key="priority_open_source">开源与隐私</button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="font-bold text-lg text-stone-700 mb-3" data-i18n-key="step3_title">第三步：偏好的产品形态？</h3>
+                        <div class="flex flex-wrap gap-3" data-filter-group="form_factor">
+                            <button class="filter-btn bg-stone-200 text-stone-700 font-semibold py-2 px-4 rounded-full" data-filter="all" data-i18n-key="form_factor_all">所有形态</button>
+                            <button class="filter-btn bg-stone-200 text-stone-700 font-semibold py-2 px-4 rounded-full" data-filter="ide" data-i18n-key="form_factor_ide">原生AI IDE</button>
+                            <button class="filter-btn bg-stone-200 text-stone-700 font-semibold py-2 px-4 rounded-full" data-filter="plugin" data-i18n-key="form_factor_plugin">IDE 插件</button>
+                            <button class="filter-btn bg-stone-200 text-stone-700 font-semibold py-2 px-4 rounded-full" data-filter="cli" data-i18n-key="form_factor_cli">命令行 (CLI)</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="results">
+                <h2 class="text-2xl md:text-3xl font-bold text-stone-800 text-center mb-8" data-i18n-key="results_title">推荐工具 (<span id="results-count">12</span>)</h2>
+                <div id="tool-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                </div>
+            </section>
+
+            <section id="market-overview" class="mt-16">
+                <h2 class="text-2xl md:text-3xl font-bold text-stone-800 text-center mb-8" data-i18n-key="market_overview_title">市场概览：三大阵营与定价模型</h2>
+                <p class="text-stone-500 text-center mb-12 max-w-3xl mx-auto" data-i18n-key="market_overview_subtitle">当前市场已清晰地分化为三大阵营，它们的架构与定价模型各不相同，反映了不同的设计哲学和商业策略。理解这些差异是做出明智选择的第一步。</p>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="font-bold text-xl text-center text-stone-800 mb-4" data-i18n-key="chart1_title">产品形态分布</h3>
+                        <div class="chart-container h-80 md:h-[350px]">
+                            <canvas id="formFactorChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="font-bold text-xl text-center text-stone-800 mb-4" data-i18n-key="chart2_title">主流定价模型</h3>
+                        <div class="chart-container h-80 md:h-[350px]">
+                            <canvas id="pricingModelChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="future" class="mt-16">
+                <h2 class="text-2xl md:text-3xl font-bold text-stone-800 text-center mb-8" data-i18n-key="future_title">未来展望：AI编程的下一个十年</h2>
+                <p class="text-stone-500 text-center mb-12 max-w-3xl mx-auto" data-i18n-key="future_subtitle">AI编程工具的发展仅仅是开始。未来，AI的角色将从“助手”演变为“伙伴”，甚至“编排者”，这不仅改变我们写代码的方式，更将重塑开发者的核心技能。</p>
+                <div class="bg-white rounded-lg shadow-md p-6 md:p-8">
+                    <div class="timeline-container">
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <h3 class="font-bold text-lg text-stone-800" data-i18n-key="timeline1_title">从“助手”到“伙伴”</h3>
+                            <p class="text-stone-600" data-i18n-key="timeline1_text">AI将不再被动响应，而是能主动理解项目商业逻辑，参与架构讨论，并提出战略性建议。</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <h3 class="font-bold text-lg text-stone-800" data-i18n-key="timeline2_title">多智能体协作成为常态</h3>
+                            <p class="text-stone-600" data-i18n-key="timeline2_text">开发者将从“编码者”转变为“AI智能体编排者”，指挥由多个专业AI组成的协作网络共同完成项目。</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <h3 class="font-bold text-lg text-stone-800" data-i18n-key="timeline3_title">超个性化开发环境</h3>
+                            <p class="text-stone-600" data-i18n-key="timeline3_text">AI将深度学习每个开发者的独特风格、思维模式甚至认知偏好，提供独一无二的辅助体验。</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <h3 class="font-bold text-lg text-stone-800" data-i18n-key="timeline4_title">“编码”与“设计”边界模糊</h3>
+                            <p class="text-stone-600" data-i18n-key="timeline4_text">通过自然语言、流程图甚至UI设计稿，直接生成功能完备的应用将成为可能，极大降低软件创造门槛。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="mt-16 py-8 border-t border-stone-200">
+            <p class="text-center text-sm text-stone-500" data-i18n-key="footer_text1">基于“2025年度AI编程助手深度比较与战略选型分析”报告构建</p>
+            <p class="text-center text-xs text-stone-400 mt-2" data-i18n-key="footer_text2" data-i18n-raw-html>
+                由 <a href="https://github.com/yuanyuanyuan" target="_blank" class="font-semibold text-stone-500 hover:text-yellow-700 transition-colors">Stark</a> 精心打造
+            </p>
+        </footer>
+        <Watermark />
+        <div id="tool-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center p-4">
+            <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] flex flex-col">
+                <div class="flex justify-between items-center p-4 border-b border-stone-200">
+                    <h2 id="modal-title" class="text-2xl font-bold text-stone-800"></h2>
+                    <button id="modal-close-btn" class="text-stone-500 hover:text-stone-800 text-3xl">&times;</button>
+                </div>
+                <div id="modal-content" class="p-6 overflow-y-auto">
+                </div>
+            </div>
+        </div>
+
+        <script is:inline>
+            // =================================================================
+            // 2025 AI Programming Assistant Interactive Report (Branded by Stark Yuan)
+            //
+            // An interactive web application to explore and compare AI coding assistants.
+            //
+            // Author: Stark Yuan
+            // GitHub: https://github.com/yuanyuanyuan
+            // =================================================================
+
+            const toolsData = [
+                { id: 'lingma', name: '通义灵码', form_factor: 'plugin', role: ['enterprise', 'individual'], priority: ['security'], differentiator: '深度整合阿里云生态，企业级私有知识库', pricing: '免费（Agent功能受限），企业版 $32/用户/月', open_source: false, ratings: { ease_of_use: 4, quality: 4, agent_power: 3, security: 5, cost_effective: 5 }, pros: ['与阿里云生态无缝集成', '强大的企业级定制化和安全功能', '全面的智能体（Agent）能力'], cons: ['个人免费版核心智能体功能受限', '企业版准入门槛高', '国际社区知名度较低'] },
+                { id: 'cursor', name: 'Cursor', form_factor: 'ide', role: ['enterprise', 'startup'], priority: ['agent_power'], differentiator: '全代码库感知，强大的Agent模式，AI原生交互', pricing: '$20/月 起', open_source: false, ratings: { ease_of_use: 4, quality: 5, agent_power: 5, security: 5, cost_effective: 3 }, pros: ['业界领先的AI原生IDE体验', '强大的全代码库感知和多文件重构能力', '支持多种顶级AI模型，灵活性高'], cons: ['版本更新可能落后于VS Code主线', '界面功能丰富可能显得杂乱', '核心价值需付费解锁'] },
+                { id: 'windsurf', name: 'Windsurf', form_factor: 'ide', role: ['startup'], priority: ['agent_power'], differentiator: '智能体“Cascade”工作流，自动运行与调试', pricing: '$15/月 起 (基于信用点)', open_source: false, ratings: { ease_of_use: 5, quality: 4, agent_power: 5, security: 4, cost_effective: 4 }, pros: ['创新的Cascade智能体工作流', '界面干净直观，用户体验流畅', '强大的多模态能力'], cons: ['代码生成质量有时被认为不如Cursor稳定', '信用点定价模式可能难以预测成本', '深度定制选择可能不如Cursor'] },
+                { id: 'traeai', name: 'Trae.ai', form_factor: 'plugin', role: ['individual'], priority: ['cost_effective'], differentiator: 'Builder模式（自然语言构建），Chat模式', pricing: '免费（有请求限制）', open_source: false, ratings: { ease_of_use: 4, quality: 3, agent_power: 3, security: 3, cost_effective: 5 }, pros: ['创新的Builder模式，擅长快速搭建项目', '非常慷慨的免费套餐', '提供云IDE和本地插件两种形态'], cons: ['产品尚处发展初期，可能存在稳定性问题', '部分IDE上性能不佳', '长期定价策略不明朗'] },
+                { id: 'voideditor', name: 'Void Editor', form_factor: 'ide', role: ['individual', 'cli_user'], priority: ['open_source', 'cost_effective'], differentiator: '开源，隐私优先，支持本地模型（Ollama）', pricing: '免费 (BYOK)', open_source: true, ratings: { ease_of_use: 3, quality: 4, agent_power: 4, security: 5, cost_effective: 5 }, pros: ['完全开源，社区驱动', '极致的灵活性，支持任何LLM', '隐私保护做到极致，支持离线操作'], cons: ['配置（尤其是本地模型）相对复杂', '质量高度依赖用户选择的模型', '可能缺乏商业软件的稳定支持'] },
+                { id: 'minimax', name: 'Minimax Agent', form_factor: 'plugin', role: ['individual'], priority: ['cost_effective'], differentiator: '无代码/低代码应用生成，面向初学者', pricing: '免费（基于信用点）', open_source: false, ratings: { ease_of_use: 5, quality: 3, agent_power: 4, security: 3, cost_effective: 5 }, pros: ['极大降低软件开发门槛', '开发速度极快', '自动化处理设计、开发、部署全流程'], cons: ['生成的应用缺乏深度定制能力', '对专业开发者是“黑盒”', '长期商业模式不明确'] },
+                { id: 'clinebot', name: 'Cline.bot', form_factor: 'plugin', role: ['startup'], priority: ['agent_power', 'open_source'], differentiator: '自主智能体，Plan & Act模式，企业级安全', pricing: '免费 (BYOK)', open_source: true, ratings: { ease_of_use: 3, quality: 4, agent_power: 5, security: 5, cost_effective: 3 }, pros: ['独特的“Plan & Act”模式，控制权和透明度高', '强大的自主智能体能力', '开源，支持灵活连接多种AI模型'], cons: ['BYOK模式成本难以预测，可能很高', '学习如何有效利用其规划功能需要投入', '不提供内联代码建议'] },
+                { id: 'pearai', name: 'Roo Code / PearAI', form_factor: 'plugin', role: ['individual'], priority: ['open_source'], differentiator: '开源自主智能体 (Roo)，模型路由 (PearAI)', pricing: '免费 (Roo, BYOK) / $15/月 (PearAI)', open_source: true, ratings: { ease_of_use: 3, quality: 3, agent_power: 4, security: 4, cost_effective: 4 }, pros: ['完全开源，高度可定制（Roo）', '创新的模型路由功能（PearAI）', '定价相对明确（PearAI）'], cons: ['Token消耗量巨大，潜在成本高（Roo）', '学习曲线陡峭（Roo）', '许多核心功能仍在开发中（PearAI）'] },
+                { id: 'copilot', name: 'GitHub Copilot', form_factor: 'plugin', role: ['enterprise', 'startup', 'individual'], priority: ['security'], differentiator: '深度集成GitHub生态，市场领导者，稳定', pricing: '$10/月 起', open_source: false, ratings: { ease_of_use: 5, quality: 4, agent_power: 3, security: 5, cost_effective: 4 }, pros: ['与GitHub和VS Code生态无与伦比的深度集成', '市场领导者，产品成熟稳定', '易用性极高，学习曲线平缓'], cons: ['模型选择灵活性不足', '处理复杂代码时质量可能不如专注工具', '功能集成深度受限于插件API'] },
+                { id: 'augmentcode', name: 'Augment Code', form_factor: 'plugin', role: ['enterprise', 'startup'], priority: ['agent_power', 'security'], differentiator: '强大的远程智能体，擅长复杂重构和大型代码库', pricing: '$50/月 起', open_source: false, ratings: { ease_of_use: 3, quality: 5, agent_power: 5, security: 5, cost_effective: 2 }, pros: ['处理复杂重构和大型代码库表现卓越', '强大的智能体能阅读文档、编写测试', '领先的安全与合规认证'], cons: ['定价较高，门槛高', '学习曲线较陡，需要掌握高级提示技巧', '缺乏让用户自由选择模型的灵活性'] },
+                { id: 'claudecode', name: 'Claude Code', form_factor: 'cli', role: ['cli_user'], priority: ['agent_power'], differentiator: '终端原生体验，强大的Git工作流和代码分析', pricing: '$17/月 起', open_source: true, ratings: { ease_of_use: 2, quality: 5, agent_power: 5, security: 4, cost_effective: 3 }, pros: ['顶级的终端AI编码体验', '自主任务执行、代码质量和token效率高', '强大的Git工作流处理能力'], cons: ['纯终端界面，学习曲线陡峭', '不擅长处理视觉或UI相关任务', '定价相对较高'] },
+                { id: 'geminicli', name: 'Gemini CLI', form_factor: 'cli', role: ['cli_user', 'individual'], priority: ['cost_effective', 'open_source'], differentiator: '极慷慨的免费额度，巨大的上下文窗口', pricing: '免费（1000次/天）', open_source: true, ratings: { ease_of_use: 3, quality: 3, agent_power: 3, security: 4, cost_effective: 5 }, pros: ['业界最慷慨的免费使用额度', '可免费使用强大的Gemini 2.5 Pro模型', '开源，与Google Cloud生态集成'], cons: ['作为编码智能体的实际表现落后于竞品', '用户体验较为粗糙，存在bug', '执行复杂任务时可靠性不高'] },
+            ];
+
+            let currentFilters = {
+                role: 'all',
+                priority: 'all',
+                form_factor: 'all'
+            };
+            
+            const tooltipTitleCallback = (tooltipItems) => {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                return Array.isArray(label) ? label.join(' ') : label;
+            };
+
+            const commonChartOptions = {
+                maintainAspectRatio: false,
+                responsive: true,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#44403C',
+                            font: { family: "'Noto Sans SC', sans-serif" }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: { title: tooltipTitleCallback }
+                    }
+                }
+            };
+
+            function renderTools() {
+                const grid = document.getElementById('tool-grid');
+                grid.innerHTML = '';
+                let count = 0;
+                toolsData.forEach(tool => {
+                    const roleMatch = currentFilters.role === 'all' || tool.role.includes(currentFilters.role);
+                    const priorityMatch = currentFilters.priority === 'all' || tool.priority.includes(currentFilters.priority);
+                    const formFactorMatch = currentFilters.form_factor === 'all' || tool.form_factor === currentFilters.form_factor;
+
+                    if (roleMatch && priorityMatch && formFactorMatch) {
+                        count++;
+                        const card = document.createElement('div');
+                        card.className = 'bg-white rounded-lg shadow-md p-6 flex flex-col justify-between hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer';
+                        card.dataset.toolId = tool.id;
+                        card.innerHTML = `
+                            <div>
+                                <div class="flex justify-between items-start">
+                                    <h3 class="text-xl font-bold text-stone-800">${tool.name}</h3>
+                                    <span class="text-xs font-semibold ${tool.open_source ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'} py-1 px-2 rounded-full">${tool.open_source ? '开源' : '闭源'}</span>
+                                </div>
+                                <p class="text-stone-500 mt-2 text-sm">${tool.differentiator}</p>
+                            </div>
+                            <div class="mt-4 pt-4 border-t border-stone-200">
+                                <p class="text-sm text-stone-600 font-semibold">${tool.pricing}</p>
+                            </div>
+                        `;
+                        grid.appendChild(card);
+                    }
+                });
+                document.getElementById('results-count').textContent = count;
+            }
+
+            function setupFilters() {
+                const filterContainer = document.getElementById('filters');
+                filterContainer.addEventListener('click', e => {
+                    if (e.target.tagName === 'BUTTON') {
+                        const group = e.target.parentElement.dataset.filterGroup;
+                        const value = e.target.dataset.filter;
+                        
+                        if (group && value) {
+                            currentFilters[group] = value;
+                            
+                            document.querySelectorAll(`[data-filter-group="${group}"] button`).forEach(btn => {
+                                btn.classList.remove('active');
+                            });
+                            e.target.classList.add('active');
+                            
+                            renderTools();
+                        }
+                    }
+                });
+            }
+            
+            let modalRadarChart = null;
+
+            function showToolModal(toolId) {
+                const tool = toolsData.find(t => t.id === toolId);
+                if (!tool) return;
+
+                document.getElementById('modal-title').textContent = tool.name;
+                const contentEl = document.getElementById('modal-content');
+                
+                const prosList = tool.pros.map(p => `<li class="flex items-start"><span class="text-green-500 mr-2 mt-1">✓</span><span>${p}</span></li>`).join('');
+                const consList = tool.cons.map(c => `<li class="flex items-start"><span class="text-red-500 mr-2 mt-1">✗</span><span>${c}</span></li>`).join('');
+                
+                contentEl.innerHTML = `
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-bold text-lg mb-2 text-stone-700">核心优势</h4>
+                            <ul class="space-y-1 text-stone-600 list-inside">${prosList}</ul>
+                            <h4 class="font-bold text-lg mt-4 mb-2 text-stone-700">潜在劣势</h4>
+                            <ul class="space-y-1 text-stone-600 list-inside">${consList}</ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg mb-2 text-stone-700 text-center">能力雷达图</h4>
+                            <div class="chart-container h-72">
+                                <canvas id="modalRadarChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                document.getElementById('tool-modal').classList.remove('hidden');
+                document.getElementById('tool-modal').classList.add('flex');
+
+                const radarCtx = document.getElementById('modalRadarChart').getContext('2d');
+                if(modalRadarChart) {
+                    modalRadarChart.destroy();
+                }
+                modalRadarChart = new Chart(radarCtx, {
+                    type: 'radar',
+                    data: {
+                        labels: ['易用性', '编码质量', '智能体能力', '企业安全', '成本效益'],
+                        datasets: [{
+                            label: tool.name,
+                            data: Object.values(tool.ratings),
+                            backgroundColor: 'rgba(251, 191, 36, 0.2)',
+                            borderColor: 'rgba(251, 191, 36, 1)',
+                            pointBackgroundColor: 'rgba(251, 191, 36, 1)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgba(251, 191, 36, 1)'
+                        }]
+                    },
+                    options: {
+                        ...commonChartOptions,
+                        scales: {
+                            r: {
+                                angleLines: { color: '#E7E5E4' },
+                                grid: { color: '#E7E5E4' },
+                                pointLabels: { color: '#44403C', font: { weight: 'bold', family: "'Noto Sans SC', sans-serif" } },
+                                ticks: {
+                                    color: '#78716C',
+                                    backdropColor: 'rgba(255, 255, 255, 0.75)'
+                                },
+                                suggestedMin: 0,
+                                suggestedMax: 5
+                            }
+                        }
+                    }
+                });
+            }
+            
+            function setupModal() {
+                const modal = document.getElementById('tool-modal');
+                const closeBtn = document.getElementById('modal-close-btn');
+
+                const closeModal = () => {
+                    modal.classList.add('hidden');
+                    modal.classList.remove('flex');
+                    if(modalRadarChart) {
+                        modalRadarChart.destroy();
+                        modalRadarChart = null;
+                    }
+                }
+
+                closeBtn.addEventListener('click', closeModal);
+                modal.addEventListener('click', e => {
+                    if (e.target === modal) {
+                        closeModal();
+                    }
+                });
+                
+                document.getElementById('tool-grid').addEventListener('click', e => {
+                    const card = e.target.closest('[data-tool-id]');
+                    if(card) {
+                        showToolModal(card.dataset.toolId);
+                    }
+                });
+            }
+
+            function createDashboardCharts() {
+                const formFactorCtx = document.getElementById('formFactorChart').getContext('2d');
+                new Chart(formFactorCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['IDE 插件', '原生AI IDE', '命令行 (CLI)'],
+                        datasets: [{
+                            data: [6, 4, 2],
+                            backgroundColor: ['#FBBF24', '#F59E0B', '#D97706'],
+                            borderColor: '#F5F5F4',
+                            hoverOffset: 4
+                        }]
+                    },
+                    options: commonChartOptions
+                });
+
+                const pricingModelCtx = document.getElementById('pricingModelChart').getContext('2d');
+                new Chart(pricingModelCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['分级订阅/信用点', '自带密钥 (BYOK)', '固定订阅'],
+                        datasets: [{
+                            data: [5, 4, 3],
+                            backgroundColor: ['#A16207', '#78350F', '#451A03'],
+                            borderColor: '#F5F5F4',
+                            hoverOffset: 4
+                        }]
+                    },
+                    options: commonChartOptions
+                });
+            }
+
+            document.addEventListener('DOMContentLoaded', () => {
+                renderTools();
+                setupFilters();
+                setupModal();
+                createDashboardCharts();
+                
+                document.querySelector('[data-filter-group="role"] [data-filter="all"]').classList.add('active');
+                document.querySelector('[data-filter-group="priority"] [data-filter="all"]').classList.add('active');
+                document.querySelector('[data-filter-group="form_factor"] [data-filter="all"]').classList.add('active');
+            });
+        </script>
+    </div>
+</Layout>
