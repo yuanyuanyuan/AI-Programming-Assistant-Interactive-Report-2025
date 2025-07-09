@@ -2,7 +2,9 @@
 
 This project is an interactive website built with [Astro](https://astro.build/) to showcase and compare AI Programming Assistants. It is automatically deployed to GitHub Pages.
 
-![demo](.\demo参考\demo-video.gif)
+**[View Live Demo](https://yuanyuanyuan.github.io/AI-Programming-Assistant-Interactive-Report-2025/)**
+
+![demo](demo参考/demo-video.gif)
 
 ## 🚀 Local Development
 

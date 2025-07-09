@@ -2,7 +2,9 @@
 
 本项目是一个使用 [Astro](https://astro.build/) 构建的交互式网站，用于展示和比较AI编程助手。网站会自动部署到GitHub Pages。
 
-![demo](.\demo参考\demo-video.gif)
+**[在线演示](https://yuanyuanyuan.github.io/AI-Programming-Assistant-Interactive-Report-2025/)**
+
+![demo](demo参考/demo-video.gif)
 
 ## 🚀 本地开发
 
