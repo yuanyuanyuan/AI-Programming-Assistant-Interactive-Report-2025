@@ -23,6 +23,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (langSelector) {
                 langSelector.value = lang;
             }
+            if (window.onLanguageLoad) {
+                window.onLanguageLoad();
+            }
         } catch (error) {
             console.error('Error setting language:', error);
         }

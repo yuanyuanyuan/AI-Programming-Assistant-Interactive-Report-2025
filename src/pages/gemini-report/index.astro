@@ -223,20 +223,8 @@ import Watermark from '../../components/Watermark.astro';
             // GitHub: https://github.com/yuanyuanyuan
             // =================================================================
 
-            const toolsData = [
-                { id: 'lingma', name: '通义灵码', form_factor: 'plugin', role: ['enterprise', 'individual'], priority: ['security'], differentiator: '深度整合阿里云生态，企业级私有知识库', pricing: '免费（Agent功能受限），企业版 $32/用户/月', open_source: false, ratings: { ease_of_use: 4, quality: 4, agent_power: 3, security: 5, cost_effective: 5 }, pros: ['与阿里云生态无缝集成', '强大的企业级定制化和安全功能', '全面的智能体（Agent）能力'], cons: ['个人免费版核心智能体功能受限', '企业版准入门槛高', '国际社区知名度较低'] },
-                { id: 'cursor', name: 'Cursor', form_factor: 'ide', role: ['enterprise', 'startup'], priority: ['agent_power'], differentiator: '全代码库感知，强大的Agent模式，AI原生交互', pricing: '$20/月 起', open_source: false, ratings: { ease_of_use: 4, quality: 5, agent_power: 5, security: 5, cost_effective: 3 }, pros: ['业界领先的AI原生IDE体验', '强大的全代码库感知和多文件重构能力', '支持多种顶级AI模型，灵活性高'], cons: ['版本更新可能落后于VS Code主线', '界面功能丰富可能显得杂乱', '核心价值需付费解锁'] },
-                { id: 'windsurf', name: 'Windsurf', form_factor: 'ide', role: ['startup'], priority: ['agent_power'], differentiator: '智能体“Cascade”工作流，自动运行与调试', pricing: '$15/月 起 (基于信用点)', open_source: false, ratings: { ease_of_use: 5, quality: 4, agent_power: 5, security: 4, cost_effective: 4 }, pros: ['创新的Cascade智能体工作流', '界面干净直观，用户体验流畅', '强大的多模态能力'], cons: ['代码生成质量有时被认为不如Cursor稳定', '信用点定价模式可能难以预测成本', '深度定制选择可能不如Cursor'] },
-                { id: 'traeai', name: 'Trae.ai', form_factor: 'plugin', role: ['individual'], priority: ['cost_effective'], differentiator: 'Builder模式（自然语言构建），Chat模式', pricing: '免费（有请求限制）', open_source: false, ratings: { ease_of_use: 4, quality: 3, agent_power: 3, security: 3, cost_effective: 5 }, pros: ['创新的Builder模式，擅长快速搭建项目', '非常慷慨的免费套餐', '提供云IDE和本地插件两种形态'], cons: ['产品尚处发展初期，可能存在稳定性问题', '部分IDE上性能不佳', '长期定价策略不明朗'] },
-                { id: 'voideditor', name: 'Void Editor', form_factor: 'ide', role: ['individual', 'cli_user'], priority: ['open_source', 'cost_effective'], differentiator: '开源，隐私优先，支持本地模型（Ollama）', pricing: '免费 (BYOK)', open_source: true, ratings: { ease_of_use: 3, quality: 4, agent_power: 4, security: 5, cost_effective: 5 }, pros: ['完全开源，社区驱动', '极致的灵活性，支持任何LLM', '隐私保护做到极致，支持离线操作'], cons: ['配置（尤其是本地模型）相对复杂', '质量高度依赖用户选择的模型', '可能缺乏商业软件的稳定支持'] },
-                { id: 'minimax', name: 'Minimax Agent', form_factor: 'plugin', role: ['individual'], priority: ['cost_effective'], differentiator: '无代码/低代码应用生成，面向初学者', pricing: '免费（基于信用点）', open_source: false, ratings: { ease_of_use: 5, quality: 3, agent_power: 4, security: 3, cost_effective: 5 }, pros: ['极大降低软件开发门槛', '开发速度极快', '自动化处理设计、开发、部署全流程'], cons: ['生成的应用缺乏深度定制能力', '对专业开发者是“黑盒”', '长期商业模式不明确'] },
-                { id: 'clinebot', name: 'Cline.bot', form_factor: 'plugin', role: ['startup'], priority: ['agent_power', 'open_source'], differentiator: '自主智能体，Plan & Act模式，企业级安全', pricing: '免费 (BYOK)', open_source: true, ratings: { ease_of_use: 3, quality: 4, agent_power: 5, security: 5, cost_effective: 3 }, pros: ['独特的“Plan & Act”模式，控制权和透明度高', '强大的自主智能体能力', '开源，支持灵活连接多种AI模型'], cons: ['BYOK模式成本难以预测，可能很高', '学习如何有效利用其规划功能需要投入', '不提供内联代码建议'] },
-                { id: 'pearai', name: 'Roo Code / PearAI', form_factor: 'plugin', role: ['individual'], priority: ['open_source'], differentiator: '开源自主智能体 (Roo)，模型路由 (PearAI)', pricing: '免费 (Roo, BYOK) / $15/月 (PearAI)', open_source: true, ratings: { ease_of_use: 3, quality: 3, agent_power: 4, security: 4, cost_effective: 4 }, pros: ['完全开源，高度可定制（Roo）', '创新的模型路由功能（PearAI）', '定价相对明确（PearAI）'], cons: ['Token消耗量巨大，潜在成本高（Roo）', '学习曲线陡峭（Roo）', '许多核心功能仍在开发中（PearAI）'] },
-                { id: 'copilot', name: 'GitHub Copilot', form_factor: 'plugin', role: ['enterprise', 'startup', 'individual'], priority: ['security'], differentiator: '深度集成GitHub生态，市场领导者，稳定', pricing: '$10/月 起', open_source: false, ratings: { ease_of_use: 5, quality: 4, agent_power: 3, security: 5, cost_effective: 4 }, pros: ['与GitHub和VS Code生态无与伦比的深度集成', '市场领导者，产品成熟稳定', '易用性极高，学习曲线平缓'], cons: ['模型选择灵活性不足', '处理复杂代码时质量可能不如专注工具', '功能集成深度受限于插件API'] },
-                { id: 'augmentcode', name: 'Augment Code', form_factor: 'plugin', role: ['enterprise', 'startup'], priority: ['agent_power', 'security'], differentiator: '强大的远程智能体，擅长复杂重构和大型代码库', pricing: '$50/月 起', open_source: false, ratings: { ease_of_use: 3, quality: 5, agent_power: 5, security: 5, cost_effective: 2 }, pros: ['处理复杂重构和大型代码库表现卓越', '强大的智能体能阅读文档、编写测试', '领先的安全与合规认证'], cons: ['定价较高，门槛高', '学习曲线较陡，需要掌握高级提示技巧', '缺乏让用户自由选择模型的灵活性'] },
-                { id: 'claudecode', name: 'Claude Code', form_factor: 'cli', role: ['cli_user'], priority: ['agent_power'], differentiator: '终端原生体验，强大的Git工作流和代码分析', pricing: '$17/月 起', open_source: true, ratings: { ease_of_use: 2, quality: 5, agent_power: 5, security: 4, cost_effective: 3 }, pros: ['顶级的终端AI编码体验', '自主任务执行、代码质量和token效率高', '强大的Git工作流处理能力'], cons: ['纯终端界面，学习曲线陡峭', '不擅长处理视觉或UI相关任务', '定价相对较高'] },
-                { id: 'geminicli', name: 'Gemini CLI', form_factor: 'cli', role: ['cli_user', 'individual'], priority: ['cost_effective', 'open_source'], differentiator: '极慷慨的免费额度，巨大的上下文窗口', pricing: '免费（1000次/天）', open_source: true, ratings: { ease_of_use: 3, quality: 3, agent_power: 3, security: 4, cost_effective: 5 }, pros: ['业界最慷慨的免费使用额度', '可免费使用强大的Gemini 2.5 Pro模型', '开源，与Google Cloud生态集成'], cons: ['作为编码智能体的实际表现落后于竞品', '用户体验较为粗糙，存在bug', '执行复杂任务时可靠性不高'] },
-            ];
+            let toolsData = [];
+            let i18nData = {};
 
             let currentFilters = {
                 role: 'all',
@@ -266,11 +254,11 @@ import Watermark from '../../components/Watermark.astro';
                 }
             };
 
-            function renderTools() {
+            function renderTools(tools) {
                 const grid = document.getElementById('tool-grid');
                 grid.innerHTML = '';
                 let count = 0;
-                toolsData.forEach(tool => {
+                tools.forEach(tool => {
                     const roleMatch = currentFilters.role === 'all' || tool.role.includes(currentFilters.role);
                     const priorityMatch = currentFilters.priority === 'all' || tool.priority.includes(currentFilters.priority);
                     const formFactorMatch = currentFilters.form_factor === 'all' || tool.form_factor === currentFilters.form_factor;
@@ -284,7 +272,7 @@ import Watermark from '../../components/Watermark.astro';
                             <div>
                                 <div class="flex justify-between items-start">
                                     <h3 class="text-xl font-bold text-stone-800">${tool.name}</h3>
-                                    <span class="text-xs font-semibold ${tool.open_source ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'} py-1 px-2 rounded-full">${tool.open_source ? '开源' : '闭源'}</span>
+                                    <span class="text-xs font-semibold ${tool.open_source ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'} py-1 px-2 rounded-full">${tool.open_source ? i18nData.tool_card_labels.open_source : i18nData.tool_card_labels.closed_source}</span>
                                 </div>
                                 <p class="text-stone-500 mt-2 text-sm">${tool.differentiator}</p>
                             </div>
@@ -295,7 +283,8 @@ import Watermark from '../../components/Watermark.astro';
                         grid.appendChild(card);
                     }
                 });
-                document.getElementById('results-count').textContent = count;
+                const resultsTitle = i18nData.results_title || 'Recommended Tools';
+                document.querySelector('[data-i18n-key="results_title"]').innerHTML = `${resultsTitle} (<span id="results-count">${count}</span>)`;
             }
 
             function setupFilters() {
@@ -313,7 +302,7 @@ import Watermark from '../../components/Watermark.astro';
                             });
                             e.target.classList.add('active');
                             
-                            renderTools();
+                            renderTools(toolsData);
                         }
                     }
                 });
@@ -334,13 +323,13 @@ import Watermark from '../../components/Watermark.astro';
                 contentEl.innerHTML = `
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <div>
-                            <h4 class="font-bold text-lg mb-2 text-stone-700">核心优势</h4>
+                            <h4 class="font-bold text-lg mb-2 text-stone-700">${i18nData.modal_labels.pros_title}</h4>
                             <ul class="space-y-1 text-stone-600 list-inside">${prosList}</ul>
-                            <h4 class="font-bold text-lg mt-4 mb-2 text-stone-700">潜在劣势</h4>
+                            <h4 class="font-bold text-lg mt-4 mb-2 text-stone-700">${i18nData.modal_labels.cons_title}</h4>
                             <ul class="space-y-1 text-stone-600 list-inside">${consList}</ul>
                         </div>
                         <div>
-                            <h4 class="font-bold text-lg mb-2 text-stone-700 text-center">能力雷达图</h4>
+                            <h4 class="font-bold text-lg mb-2 text-stone-700 text-center">${i18nData.modal_labels.ratings_title}</h4>
                             <div class="chart-container h-72">
                                 <canvas id="modalRadarChart"></canvas>
                             </div>
@@ -358,7 +347,7 @@ import Watermark from '../../components/Watermark.astro';
                 modalRadarChart = new Chart(radarCtx, {
                     type: 'radar',
                     data: {
-                        labels: ['易用性', '编码质量', '智能体能力', '企业安全', '成本效益'],
+                        labels: i18nData.chart_labels.radar,
                         datasets: [{
                             label: tool.name,
                             data: Object.values(tool.ratings),
@@ -422,7 +411,7 @@ import Watermark from '../../components/Watermark.astro';
                 new Chart(formFactorCtx, {
                     type: 'doughnut',
                     data: {
-                        labels: ['IDE 插件', '原生AI IDE', '命令行 (CLI)'],
+                        labels: i18nData.chart_labels.form_factor,
                         datasets: [{
                             data: [6, 4, 2],
                             backgroundColor: ['#FBBF24', '#F59E0B', '#D97706'],
@@ -437,7 +426,7 @@ import Watermark from '../../components/Watermark.astro';
                 new Chart(pricingModelCtx, {
                     type: 'doughnut',
                     data: {
-                        labels: ['分级订阅/信用点', '自带密钥 (BYOK)', '固定订阅'],
+                        labels: i18nData.chart_labels.pricing_model,
                         datasets: [{
                             data: [5, 4, 3],
                             backgroundColor: ['#A16207', '#78350F', '#451A03'],
@@ -449,16 +438,37 @@ import Watermark from '../../components/Watermark.astro';
                 });
             }
 
+            async function initializePage() {
+                const lang = localStorage.getItem('lang') || 'zh-CN';
+                const baseUrl = document.body.dataset.baseUrl || '/';
+                try {
+                    const response = await fetch(`${baseUrl}locales/${lang}.json`);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    i18nData = await response.json();
+                    toolsData = i18nData.tools;
+                    
+                    renderTools(toolsData);
+                    setupFilters();
+                    setupModal();
+                    createDashboardCharts();
+                    
+                    document.querySelector('[data-filter-group="role"] [data-filter="all"]').classList.add('active');
+                    document.querySelector('[data-filter-group="priority"] [data-filter="all"]').classList.add('active');
+                    document.querySelector('[data-filter-group="form_factor"] [data-filter="all"]').classList.add('active');
+                } catch (error) {
+                    console.error("Could not load language file:", error);
+                }
+            }
+
             document.addEventListener('DOMContentLoaded', () => {
-                renderTools();
-                setupFilters();
-                setupModal();
-                createDashboardCharts();
-                
-                document.querySelector('[data-filter-group="role"] [data-filter="all"]').classList.add('active');
-                document.querySelector('[data-filter-group="priority"] [data-filter="all"]').classList.add('active');
-                document.querySelector('[data-filter-group="form_factor"] [data-filter="all"]').classList.add('active');
+                // The i18n.js script will call initializePage after it has set up the language
             });
+            
+            // This function will be called by i18n.js
+            window.onLanguageLoad = initializePage;
+
         </script>
     </div>
 </Layout>

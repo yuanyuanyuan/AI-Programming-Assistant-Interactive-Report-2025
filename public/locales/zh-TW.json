@@ -39,5 +39,33 @@
     "timeline4_title": "“編碼”與“設計”邊界模糊",
     "timeline4_text": "透過自然語言、流程圖甚至UI設計稿，直接生成功能完備的應用將成為可能，極大降低軟體創造門檻。",
     "footer_text1": "基於“2025年度AI編程助手深度比較與戰略選型分析”報告構建",
-    "footer_text2": "由 <a href=\"https://github.com/yuanyuanyuan\" target=\"_blank\" class=\"font-semibold text-stone-500 hover:text-yellow-700 transition-colors\">Stark</a> 精心打造"
+    "footer_text2": "由 <a href=\"https://github.com/yuanyuanyuan\" target=\"_blank\" class=\"font-semibold text-stone-500 hover:text-yellow-700 transition-colors\">Stark</a> 精心打造",
+    "tools": [
+        { "id": "lingma", "name": "通義靈碼", "form_factor": "plugin", "role": ["enterprise", "individual"], "priority": ["security"], "differentiator": "深度整合阿里雲生態，企業級私有知識庫", "pricing": "免費（Agent功能受限），企業版 $32/使用者/月", "open_source": false, "ratings": { "ease_of_use": 4, "quality": 4, "agent_power": 3, "security": 5, "cost_effective": 5 }, "pros": ["與阿里雲生態無縫整合", "強大的企業級客製化和安全功能", "全面的智慧體（Agent）能力"], "cons": ["個人免費版核心智慧體功能受限", "企業版準入門檻高", "國際社群知名度較低"] },
+        { "id": "cursor", "name": "Cursor", "form_factor": "ide", "role": ["enterprise", "startup"], "priority": ["agent_power"], "differentiator": "全程式碼庫感知，強大的Agent模式，AI原生互動", "pricing": "$20/月 起", "open_source": false, "ratings": { "ease_of_use": 4, "quality": 5, "agent_power": 5, "security": 5, "cost_effective": 3 }, "pros": ["業界領先的AI原生IDE體驗", "強大的全程式碼庫感知和多檔案重構能力", "支援多種頂級AI模型，靈活性高"], "cons": ["版本更新可能落後於VS Code主線", "介面功能豐富可能顯得雜亂", "核心價值需付費解鎖"] },
+        { "id": "windsurf", "name": "Windsurf", "form_factor": "ide", "role": ["startup"], "priority": ["agent_power"], "differentiator": "智慧體“Cascade”工作流，自動運行與偵錯", "pricing": "$15/月 起 (基於信用點)", "open_source": false, "ratings": { "ease_of_use": 5, "quality": 4, "agent_power": 5, "security": 4, "cost_effective": 4 }, "pros": ["創新的Cascade智慧體工作流", "介面乾淨直觀，使用者體驗流暢", "強大的多模態能力"], "cons": ["程式碼生成品質有時被認為不如Cursor穩定", "信用點定價模式可能難以預測成本", "深度客製化選擇可能不如Cursor"] },
+        { "id": "traeai", "name": "Trae.ai", "form_factor": "plugin", "role": ["individual"], "priority": ["cost_effective"], "differentiator": "Builder模式（自然語言建構），Chat模式", "pricing": "免費（有請求限制）", "open_source": false, "ratings": { "ease_of_use": 4, "quality": 3, "agent_power": 3, "security": 3, "cost_effective": 5 }, "pros": ["創新的Builder模式，擅長快速搭建專案", "非常慷慨的免費套餐", "提供雲端IDE和本地插件兩種形態"], "cons": ["產品尚處發展初期，可能存在穩定性問題", "部分IDE上效能不佳", "長期定價策略不明朗"] },
+        { "id": "voideditor", "name": "Void Editor", "form_factor": "ide", "role": ["individual", "cli_user"], "priority": ["open_source", "cost_effective"], "differentiator": "開源，隱私優先，支援本地模型（Ollama）", "pricing": "免費 (BYOK)", "open_source": true, "ratings": { "ease_of_use": 3, "quality": 4, "agent_power": 4, "security": 5, "cost_effective": 5 }, "pros": ["完全開源，社群驅動", "極致的靈活性，支援任何LLM", "隱私保護做到極致，支援離線操作"], "cons": ["配置（尤其是本地模型）相對複雜", "品質高度依賴使用者選擇的模型", "可能缺乏商業軟體的穩定支援"] },
+        { "id": "minimax", "name": "Minimax Agent", "form_factor": "plugin", "role": ["individual"], "priority": ["cost_effective"], "differentiator": "無程式碼/低程式碼應用生成，面向初學者", "pricing": "免費（基於信用點）", "open_source": false, "ratings": { "ease_of_use": 5, "quality": 3, "agent_power": 4, "security": 3, "cost_effective": 5 }, "pros": ["極大降低軟體開發門檻", "開發速度極快", "自動化處理設計、開發、部署全流程"], "cons": ["生成的應用缺乏深度客製化能力", "對專業開發者是“黑箱”", "長期商業模式不明確"] },
+        { "id": "clinebot", "name": "Cline.bot", "form_factor": "plugin", "role": ["startup"], "priority": ["agent_power", "open_source"], "differentiator": "自主智慧體，Plan & Act模式，企業級安全", "pricing": "免費 (BYOK)", "open_source": true, "ratings": { "ease_of_use": 3, "quality": 4, "agent_power": 5, "security": 5, "cost_effective": 3 }, "pros": ["獨特的“Plan & Act”模式，控制權和透明度高", "強大的自主智慧體能力", "開源，支援靈活連接多種AI模型"], "cons": ["BYOK模式成本難以預測，可能很高", "學習如何有效利用其規劃功能需要投入", "不提供內嵌程式碼建議"] },
+        { "id": "pearai", "name": "Roo Code / PearAI", "form_factor": "plugin", "role": ["individual"], "priority": ["open_source"], "differentiator": "開源自主智慧體 (Roo)，模型路由 (PearAI)", "pricing": "免費 (Roo, BYOK) / $15/月 (PearAI)", "open_source": true, "ratings": { "ease_of_use": 3, "quality": 3, "agent_power": 4, "security": 4, "cost_effective": 4 }, "pros": ["完全開源，高度可客製化（Roo）", "創新的模型路由功能（PearAI）", "定價相對明確（PearAI）"], "cons": ["Token消耗量巨大，潛在成本高（Roo）", "學習曲線陡峭（Roo）", "許多核心功能仍在開發中（PearAI）"] },
+        { "id": "copilot", "name": "GitHub Copilot", "form_factor": "plugin", "role": ["enterprise", "startup", "individual"], "priority": ["security"], "differentiator": "深度整合GitHub生態，市場領導者，穩定", "pricing": "$10/月 起", "open_source": false, "ratings": { "ease_of_use": 5, "quality": 4, "agent_power": 3, "security": 5, "cost_effective": 4 }, "pros": ["與GitHub和VS Code生態無與倫比的深度整合", "市場領導者，產品成熟穩定", "易用性極高，學習曲線平緩"], "cons": ["模型選擇靈活性不足", "處理複雜程式碼時品質可能不如專注工具", "功能整合深度受限於插件API"] },
+        { "id": "augmentcode", "name": "Augment Code", "form_factor": "plugin", "role": ["enterprise", "startup"], "priority": ["agent_power", "security"], "differentiator": "強大的遠端智慧體，擅長複雜重構和大型程式碼庫", "pricing": "$50/月 起", "open_source": false, "ratings": { "ease_of_use": 3, "quality": 5, "agent_power": 5, "security": 5, "cost_effective": 2 }, "pros": ["處理複雜重構和大型程式碼庫表現卓越", "強大的智慧體能閱讀文件、編寫測試", "領先的安全與合規認證"], "cons": ["定價較高，門檻高", "學習曲線較陡，需要掌握進階提示技巧", "缺乏讓使用者自由選擇模型的靈活性"] },
+        { "id": "claudecode", "name": "Claude Code", "form_factor": "cli", "role": ["cli_user"], "priority": ["agent_power"], "differentiator": "終端原生體驗，強大的Git工作流和程式碼分析", "pricing": "$17/月 起", "open_source": true, "ratings": { "ease_of_use": 2, "quality": 5, "agent_power": 5, "security": 4, "cost_effective": 3 }, "pros": ["頂級的終端AI編碼體驗", "自主任務執行、程式碼品質和token效率高", "強大的Git工作流處理能力"], "cons": ["純終端介面，學習曲線陡峭", "不擅長處理視覺或UI相關任務", "定價相對較高"] },
+        { "id": "geminicli", "name": "Gemini CLI", "form_factor": "cli", "role": ["cli_user", "individual"], "priority": ["cost_effective", "open_source"], "differentiator": "極慷慨的免費額度，巨大的上下文視窗", "pricing": "免費（1000次/天）", "open_source": true, "ratings": { "ease_of_use": 3, "quality": 3, "agent_power": 3, "security": 4, "cost_effective": 5 }, "pros": ["業界最慷慨的免費使用額度", "可免費使用強大的Gemini 2.5 Pro模型", "開源，與Google Cloud生態整合"], "cons": ["作為編碼智慧體的實際表現落後於競品", "使用者體驗較為粗糙，存在bug", "執行複雜任務時可靠性不高"] }
+    ],
+    "chart_labels": {
+        "form_factor": ["IDE 插件", "原生AI IDE", "命令列 (CLI)"],
+        "pricing_model": ["分級訂閱/信用點", "自備金鑰 (BYOK)", "固定訂閱"],
+        "radar": ["易用性", "編碼品質", "智慧體能力", "企業安全", "成本效益"]
+    },
+    "tool_card_labels": {
+        "open_source": "開源",
+        "closed_source": "閉源"
+    },
+    "modal_labels": {
+        "pros_title": "核心優勢",
+        "cons_title": "潛在劣勢",
+        "ratings_title": "能力雷達圖"
+    }
 }
