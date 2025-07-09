@@ -33,5 +33,9 @@ GitHub Pages的設定資訊位於 `astro.config.mjs` 檔案中。
 -   **Site**: `https://yuanyuanyuan.github.io`
 -   **Base**: `/AI-Programming-Assistant-Interactive-Report-2025/`
 
+## 聯絡方式
+
+![qrcode](public/qrcode.jpg)
+
 ---
 *本專案由[Astro](https://astro.build/)和AI結對程式員協助完成初始化。* 

@@ -33,5 +33,9 @@ The configuration for GitHub Pages is set in `astro.config.mjs`.
 -   **Site**: `https://yuanyuanyuan.github.io`
 -   **Base**: `/AI-Programming-Assistant-Interactive-Report-2025/`
 
+## Contact
+
+![qrcode](public/qrcode.jpg)
+
 ---
 *This project was bootstrapped with [Astro](https://astro.build/) and assistance from an AI pair programmer.*
